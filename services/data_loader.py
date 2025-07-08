@@ -35,3 +35,4 @@ class DataLoader:
             print(f"Error cleaning data: {e}")
             return pd.DataFrame()
     
+    def 
