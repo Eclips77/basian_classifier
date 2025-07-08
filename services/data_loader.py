@@ -4,7 +4,7 @@ class DataLoader:
 
     def __init__(self, file_path: str, label_column: str):
         self.file_path = file_path
-        self.label_column = label_column
+        self.__label_column = label_column
         self.__data = None
 
     def load_data(self) -> pd.DataFrame:
@@ -46,8 +46,8 @@ class DataLoader:
                 return pd.DataFrame()
             
             # Clean the data
-            cleaned_data = self.__data.dropna(how=how, subset=subset)
-            return cleaned_data
+            self.__data = self.__data.dropna(how=how, subset=subset)
+            return self.__data
         except Exception as e:
             print(f"Error cleaning data: {e}")
             return pd.DataFrame()
@@ -63,9 +63,9 @@ class DataLoader:
             pd.DataFrame: DataFrame containing the features, or an empty DataFrame if no data is loaded.
         """
         if self.__data is not None:
-            if self.label_column in self.__data.columns:
+            if self.__label_column in self.__data.columns:
                 # Drop the label column to return only features
-                return self.__data.drop(columns=[self.label_column], errors='ignore')
+                return self.__data.drop(columns=[self.__label_column], errors='ignore')
         return pd.DataFrame()
 
     def get_labels(self) -> pd.Series:
@@ -75,6 +75,6 @@ class DataLoader:
         Returns:
             pd.Series: Series containing the labels, or an empty Series if no data is loaded.
         """
-        if self.__data is not None and self.label_column in self.__data.columns:
-            return self.__data[self.label_column]
+        if self.__data is not None and self.__label_column in self.__data.columns:
+            return self.__data[self.__label_column]
         return pd.Series(dtype=float)
