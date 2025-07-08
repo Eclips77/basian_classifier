@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 class DataLoader:
 
@@ -78,3 +79,27 @@ class DataLoader:
         if self.__data is not None and self.__label_column in self.__data.columns:
             return self.__data[self.__label_column]
         return pd.Series(dtype=float)
+
+    def split_data(self, test_size: float = 0.3, random_state: int = 42) -> tuple:
+        """
+        Split the data into training and testing sets.
+
+        Args:
+            test_size (float): Proportion of the dataset to include in the test split.
+            random_state (int): Random seed for reproducibility.
+
+        Returns:
+            tuple: Features and labels for training and testing sets.
+        """
+
+        if self.__data is None or self.__label_column not in self.__data.columns:
+            print("Error: Data not loaded or label column not found")
+            return None, None, None, None
+        
+        X = self.get_features()
+        y = self.get_labels()
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
+        return X_train, X_test, y_train, y_test
