@@ -1,0 +1,9 @@
+AgeGroup,Credit,BoughtComputer
+Young,High,No
+Young,High,No
+Middle,High,Yes
+Senior,Medium,Yes
+Senior,Low,Yes
+Senior,Low,No
+Middle,Low,Yes
+Young,Medium,Yes

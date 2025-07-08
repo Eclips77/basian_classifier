@@ -8,7 +8,7 @@ class Classifier:
         self.__conditional_probs = {}
 
 
-    def fit(self, FeatureData : pd.DataFrame, labels : pd.Series):
+    def fit(self, featureData : pd.DataFrame, labels : pd.Series):
         """
         Train the Naive Bayes Classifier using the training data.
 
@@ -30,16 +30,16 @@ class Classifier:
         # Compute conditional probabilities with Laplacian correction
         self.__conditional_probs = {}
 
-        for feature in FeatureData.columns:
+        for feature in featureData.columns:
             self.__conditional_probs[feature] = {}
-            feature_values = FeatureData[feature].unique()
+            feature_values = featureData[feature].unique()
 
             for value in feature_values:
                 self.__conditional_probs[feature][value] = {}
 
                 for cls in self.__classes:
                     # Count where feature == value and class == cls
-                    count = len(FeatureData[(FeatureData[feature] == value) & (labels == cls)])
+                    count = len(featureData[(featureData[feature] == value) & (labels == cls)])
                     total_in_class = class_counts[cls]
                     num_possible_values = len(feature_values)
                     
