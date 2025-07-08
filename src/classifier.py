@@ -1,4 +1,4 @@
-
+import pandas as pd
 
 class Classifier:
 
@@ -8,20 +8,20 @@ class Classifier:
         self.__conditional_probs = {}
 
 
-    def fit(self, X, y):
+    def fit(self, FeatureData : pd.DataFrame, labels : pd.Series):
         """
         Train the Naive Bayes Classifier using the training data.
 
         Args:
-            X (pd.DataFrame): The feature data.
-            y (pd.Series): The label data.
+            FeatureData (pd.DataFrame): The feature data.
+            labels (pd.Series): The label data.
         """
         # Get unique classes
-        self.__classes = list(y.unique())
+        self.__classes = list(labels.unique())
 
         # Compute prior probabilities for each class
-        class_counts = y.value_counts().to_dict()
-        total_samples = len(y)
+        class_counts = labels.value_counts().to_dict()
+        total_samples = len(labels)
         self.__class_priors = {}
 
         for cls in self.__classes:
@@ -30,16 +30,16 @@ class Classifier:
         # Compute conditional probabilities with Laplacian correction
         self.__conditional_probs = {}
 
-        for feature in X.columns:
+        for feature in FeatureData.columns:
             self.__conditional_probs[feature] = {}
-            feature_values = X[feature].unique()
+            feature_values = FeatureData[feature].unique()
 
             for value in feature_values:
                 self.__conditional_probs[feature][value] = {}
 
                 for cls in self.__classes:
                     # Count where feature == value and class == cls
-                    count = len(X[(X[feature] == value) & (y == cls)])
+                    count = len(FeatureData[(FeatureData[feature] == value) & (labels == cls)])
                     total_in_class = class_counts[cls]
                     num_possible_values = len(feature_values)
                     
