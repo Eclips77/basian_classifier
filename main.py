@@ -5,7 +5,7 @@ from services.input_validator import DataValidator
 path = "Data/agaricus-lepiota.csv"
 label_column = 0
 
-validated_filepath, validated_label = DataValidator.validate(path, label_column)
+validated_filepath, validated_label = DataValidator.validate_cli(path, label_column)
 
 loader = DataLoader(validated_filepath,validated_label )
 

@@ -5,22 +5,22 @@ from typing import Union
 
 class DataValidator:
     @staticmethod
-    def validate(filepath: str, label_identifier: Union[str, int]) -> tuple:
+    def validate_cli(filepath: str, label_identifier: Union[str, int]) -> tuple:
         if not os.path.isfile(filepath):
-            raise FileNotFoundError(f"File not found: {filepath}")
+            print(f"File not found: {filepath}")
 
         df = pd.read_csv(filepath, nrows=0)  
 
         columns = list(df.columns)
         if isinstance(label_identifier, int):
             if label_identifier < 0 or label_identifier >= len(columns):
-                raise IndexError(f"Label index {label_identifier} out of range.")
+                print(f"Label index {label_identifier} out of range.")
             label_name = columns[label_identifier]
         elif isinstance(label_identifier, str):
             if label_identifier not in columns:
-                raise ValueError(f"Label column '{label_identifier}' not found.")
+                print(f"Label column '{label_identifier}' not found.")
             label_name = label_identifier
         else:
-            raise TypeError("Label identifier must be string or integer.")
+            print("Label identifier must be string or integer.")
 
         return filepath, label_name
