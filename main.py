@@ -1,10 +1,19 @@
 from src.app_controller import AppController
+from services.file_loader import FileLoader
 
 FILE_PATH = "Data/phishing.csv"
 LABEL_COL = "class"
 
-app = AppController(FILE_PATH, LABEL_COL)
-app.run()
+# app = AppController(FILE_PATH, LABEL_COL)
+# app.run()
+
+
+if __name__ == "__main__":
+    loader = FileLoader()
+    app = AppController(FILE_PATH, LABEL_COL, loader=loader)
+    app.run()
+
+
 
 # for idx, row in X_test.iterrows():
 #     record = row.to_dict()
