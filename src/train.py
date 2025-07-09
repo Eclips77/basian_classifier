@@ -1,6 +1,6 @@
 import math
 import pandas as pd
-from classifier_model import NaiveBayesModel
+from src.classifier_model import NaiveBayesModel
 
 class NaiveBayesTrainer:
     def fit(self, X: pd.DataFrame, y: pd.Series) -> NaiveBayesModel:
