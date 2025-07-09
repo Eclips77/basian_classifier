@@ -48,24 +48,54 @@ class Classifier:
                     
                     self.__conditional_probs[feature][value][cls] = prob
 
+    def predict(self, record: dict):
+        """
+        Predict the class label for a single record.
 
-    def predict(self, record):
-        """
-        Predict the class labels for the input data.
-        """
-        pass
+        Args:
+            record (dict): The input record as a dictionary.
 
-    def predict_batch(self, x):
+        Returns:
+            str: The predicted class label.
         """
-        Predict the class labels for a batch of input data.
-        """
-        pass
+        class_probs = {}
 
-    def evaluate(self, test_X, test_y):
+        for cls in self.__classes:
+            # Start with the prior probability
+            prob = self.__class_priors[cls]
+
+            for feature, value in record.items():
+                if feature in self.__conditional_probs:
+                    if value in self.__conditional_probs[feature]:
+                        prob *= self.__conditional_probs[feature][value].get(cls, 1e-6)
+                    else:
+                        prob *= 1e-6  # Smoothing for unseen value
+                else:
+                    prob *= 1e-6  # Smoothing for unseen feature
+
+            class_probs[cls] = prob
+    # Return the class with the highest probability
+        return max(class_probs, key=class_probs.get)
+
+    def predict_batch(self, X: pd.DataFrame):
         """
-        Evaluate the classifier on the test data.
+        Predict class labels for a batch of records.
+
+        Args:
+            X (pd.DataFrame): The input features data.
+
+        Returns:
+            list: List of predicted class labels.
         """
-        pass
+        predictions = []
+        for _, row in X.iterrows():
+            record = row.to_dict()
+            pred = self.predict(record)
+            predictions.append(pred)
+        return predictions
+
+
+    
 
 
 
