@@ -1,28 +1,27 @@
-from src.classifier import Classifier
 from services.data_loader import DataLoader
 from services.input_validator import DataValidator
+from src.classifier import Classifier
+from src.record_classifier import RecordClassifier
 
-path = "Data/agaricus-lepiota.csv"
-label_column = 0
+file_path = "Data/buy_computer.csv"
+label_column = "BoughtComputer"  
 
-validated_filepath, validated_label = DataValidator.validate_cli(path, label_column)
+validated_path, validated_label = DataValidator.validate_cli(file_path, label_column)
 
-loader = DataLoader(validated_filepath,validated_label )
-
+# 2. Load and clean data
+loader = DataLoader(validated_path, validated_label)
 loader.load_data()
 loader.clean_data()
 
-x = loader.get_features()
-y = loader.get_labels()
+# 3. Split data into training and testing sets using DataLoader's method
+X_train, X_test, y_train, y_test = loader.split_data(test_size=0.3)
 
+# 4. Train the classifier
 clf = Classifier()
-clf.fit(x,y)
+clf.fit(X_train, y_train)
 
-print("\n=== Class Priors ===")
-print(clf._Classifier__class_priors)
+# 5. Evaluate using RecordClassifier
+rc = RecordClassifier(clf)
+accuracy = rc.evaluate(X_test, y_test)
 
-print("\n=== Conditional Probabilities ===")
-for feature, value_dict in clf._Classifier__conditional_probs.items():
-    print(f"Feature: {feature}")
-    for value, probs in value_dict.items():
-        print(f"  Value: {value} => {probs}")
+print(f"\n=== Model Accuracy ===\nAccuracy: {accuracy:.2%}")
