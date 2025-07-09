@@ -8,21 +8,15 @@ class DataLoader:
 
 
 
-    def load_data(self) -> pd.DataFrame:
+    def load_data(self):
         """
         Load data from a CSV file into a pandas DataFrame.
-
-        Returns:
-            pd.DataFrame: DataFrame containing the loaded data, or an empty DataFrame if an error occurs.
         """
         try:
             # Load the data from the CSV file
             self.__data = pd.read_csv(self.file_path)
-            return self.__data
         except Exception as e:
             print(f"Error loading data: {e}")
-            return pd.DataFrame()
-
 
     
     def get_data(self) -> pd.DataFrame:
