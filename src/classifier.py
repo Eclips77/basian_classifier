@@ -11,7 +11,6 @@ class Classifier:
         self.feature_possible_values = {}
 
     def fit(self, X: pd.DataFrame, y: pd.Series):
-        y = y.astype(str).str.strip().str.lower()
         self.classes = list(y.unique())
         self.class_counts = y.value_counts().to_dict()
         total = len(y)
