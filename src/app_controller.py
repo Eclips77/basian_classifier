@@ -51,25 +51,25 @@ class AppController:
 
         cleaner = Cleaner(self.data, self.label_name)
         self.X_train, self.X_test, self.y_train, self.y_test = cleaner.split_data()
-        print("[AppController] Data loaded and cleaned successfully.")
+        print("Data loaded and cleaned successfully.")
 
     def train_model(self):
         if self.X_train is None:
-            print("[AppController] Please load and clean data first.")
+            print("Please load and clean data first.")
             return
         model = self.classifier.fit(self.X_train, self.y_train)
         self.evaluator = NaiveBayesEvaluator(model)
-        print("[AppController] Model trained successfully.")
+        print("Model trained successfully.")
 
     def evaluate_model(self):
         if self.evaluator is None:
-            print("[AppController] Please train the model first.")
+            print("Please train the model first.")
             return
         self.evaluator.evaluate(self.X_test, self.y_test)
 
     def predict_record(self):
         if self.evaluator is None:
-            print("[AppController] Please train the model first.")
+            print("Please train the model first.")
             return
         record = {}
         for col in self.X_test.columns:
@@ -77,8 +77,8 @@ class AppController:
                 val = input(f"Enter value for '{col}': ").strip()
                 if val:
                     break
-                print(f"[AppController] Invalid input for '{col}'. Please try again.")
+                print(f"Invalid input for '{col}'. Please try again.")
 
             record[col] = val
         result = self.evaluator.predict(record)
-        print(f"[AppController] Prediction: {result}")
+        print(f"Prediction: {result}")
