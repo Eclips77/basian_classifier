@@ -8,6 +8,8 @@ class DataLoader:
         self.__label_column = label_column
         self.__data = None
 
+
+
     def load_data(self) -> pd.DataFrame:
         """
         Load data from a CSV file into a pandas DataFrame.
@@ -77,7 +79,13 @@ class DataLoader:
             pd.Series: Series containing the labels, or an empty Series if no data is loaded.
         """
         if self.__data is not None and self.__label_column in self.__data.columns:
-            return self.__data[self.__label_column]
+            return (
+    self.__data[self.__label_column]
+    .astype(str)
+    .str.strip()
+    .str.lower()
+)
+
         return pd.Series(dtype=float)
 
     def split_data(self, test_size: float = 0.3, random_state: int = 42) -> tuple:
@@ -98,6 +106,8 @@ class DataLoader:
         
         X = self.get_features()
         y = self.get_labels()
+        if y.nunique() < 2:
+            print("Label column contains fewer than 2 unique classes after cleaning.")
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=random_state
