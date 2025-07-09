@@ -1,7 +1,7 @@
 from services.data_loader import DataLoader
 from services.input_validator import DataValidator
-from src.classifier import Classifier
-from src.record_classifier import RecordClassifier
+from train import Classifier
+from evaluator import RecordClassifier
 from services.cleaner_and_spliter import Cleaner
 
 

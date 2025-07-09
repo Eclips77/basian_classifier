@@ -4,8 +4,7 @@ from services.file_loader import FileLoader
 FILE_PATH = "Data/phishing.csv"
 LABEL_COL = "class"
 
-# app = AppController(FILE_PATH, LABEL_COL)
-# app.run()
+
 
 
 if __name__ == "__main__":
