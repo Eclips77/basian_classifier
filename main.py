@@ -4,8 +4,8 @@ from src.classifier import Classifier
 from src.record_classifier import RecordClassifier
 from services.cleaner_and_spliter import Cleaner
 
-FILE_PATH = "Data/agaricus-lepiota.csv"
-LABEL_COL = 0
+FILE_PATH = "Data/phishing.csv"
+LABEL_COL = "class"
 
 path, label = DataValidator.validate_cli(FILE_PATH, LABEL_COL)
 loader = DataLoader(path)
