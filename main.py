@@ -1,25 +1,10 @@
-from services.data_loader import DataLoader
-from services.input_validator import DataValidator
-from src.classifier import Classifier
-from src.record_classifier import RecordClassifier
-from services.cleaner_and_spliter import Cleaner
+from src.app_controller import AppController
 
 FILE_PATH = "Data/phishing.csv"
 LABEL_COL = "class"
 
-path, label = DataValidator.validate_cli(FILE_PATH, LABEL_COL)
-loader = DataLoader(path)
-loader.load_data()
-data = loader.get_data()
-cleaner = Cleaner(data,label)
-
-X_train, X_test, y_train, y_test = cleaner.split_data()
-
-clf = Classifier()
-clf.fit(X_train, y_train)
-
-rc = RecordClassifier(clf)
-rc.evaluate(X_test, y_test)
+app = AppController(FILE_PATH, LABEL_COL)
+app.run()
 
 # for idx, row in X_test.iterrows():
 #     record = row.to_dict()
