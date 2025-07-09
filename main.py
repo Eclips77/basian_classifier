@@ -1,10 +1,14 @@
 from src.classifier import Classifier
 from services.data_loader import DataLoader
+from services.input_validator import DataValidator
 
-# שים לב - זה ברוט, אז הנתיבים נכונים
-loader = DataLoader("Data/buy_computer.csv", "BoughtComputer")
+path = "Data/agaricus-lepiota.csv"
+label_column = 0
 
-# חשוב! טוען דאטה לפני שמוציא תכונות
+validated_filepath, validated_label = DataValidator.validate(path, label_column)
+
+loader = DataLoader(validated_filepath,validated_label )
+
 loader.load_data()
 loader.clean_data()
 
@@ -14,7 +18,6 @@ y = loader.get_labels()
 clf = Classifier()
 clf.fit(x,y)
 
-# הדפס מה יצא
 print("\n=== Class Priors ===")
 print(clf._Classifier__class_priors)
 
