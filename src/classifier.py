@@ -3,7 +3,7 @@ import pandas as pd
 class Classifier:
 
     def __init__(self):
-        self.classes = []
+        self.__classes = []
         self.__class_priors = {}
         self.__conditional_probs = {}
 
@@ -35,6 +35,7 @@ class Classifier:
             feature_values = featureData[feature].unique()
 
             for value in feature_values:
+                value = str(value).strip()
                 self.__conditional_probs[feature][value] = {}
 
                 for cls in self.__classes:
@@ -65,6 +66,7 @@ class Classifier:
             prob = self.__class_priors[cls]
 
             for feature, value in record.items():
+                value = str(value).strip()
                 if feature in self.__conditional_probs:
                     if value in self.__conditional_probs[feature]:
                         prob *= self.__conditional_probs[feature][value].get(cls, 1e-6)

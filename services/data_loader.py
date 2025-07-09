@@ -80,7 +80,13 @@ class DataLoader:
             pd.Series: Series containing the labels, or an empty Series if no data is loaded.
         """
         if self.__data is not None and self.__label_column in self.__data.columns:
-            return self.__data[self.__label_column]
+            return (
+    self.__data[self.__label_column]
+    .astype(str)
+    .str.strip()
+    .str.lower()
+)
+
         return pd.Series(dtype=float)
 
     def split_data(self, test_size: float = 0.3, random_state: int = 42) -> tuple:
