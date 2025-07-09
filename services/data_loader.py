@@ -107,6 +107,8 @@ class DataLoader:
         
         X = self.get_features()
         y = self.get_labels()
+        if y.nunique() < 2:
+            print("Label column contains fewer than 2 unique classes after cleaning.")
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=random_state
