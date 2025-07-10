@@ -1,11 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from services.data_loader import DataLoader
+from services.file_loader import FileLoader
 from src.app_controller import AppController
 
 app = FastAPI()
 
-loader = DataLoader()
+loader = FileLoader()
 controller = AppController(label_col="BoughtComputer", loader=loader)
 
 controller.load_and_prepare("Data/buy_computer.csv")
