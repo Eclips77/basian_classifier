@@ -14,7 +14,10 @@ class RecordClassifier:
     def evaluate(self, X_test: pd.DataFrame, y_test: pd.Series) -> float:
         y_test = y_test.astype(str).str.strip().str.lower()
         predictions = self.classify_batch(X_test)
-        correct = sum(predicted_label.lower() == true for predicted_label, true in zip(predictions, y_test))
+        correct = sum(
+            str(predicted_label).strip().lower() == true
+            for predicted_label, true in zip(predictions, y_test)
+        )
         accuracy = correct / len(y_test)
         print(f"Model accuracy: {accuracy:.2%}")
         return accuracy

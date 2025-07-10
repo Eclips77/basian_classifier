@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 class DataLoader:
@@ -9,19 +10,21 @@ class DataLoader:
 
 
     def load_data(self) -> pd.DataFrame:
-        """
-        Load data from a CSV file into a pandas DataFrame.
+        """Load data from a CSV file into a pandas DataFrame.
 
-        Returns:
-            pd.DataFrame: DataFrame containing the loaded data, or an empty DataFrame if an error occurs.
+        Returns the loaded :class:`pandas.DataFrame`.
+
+        Raises:
+            FileNotFoundError: If the file does not exist.
+            pandas.errors.ParserError: If the CSV cannot be parsed.
         """
-        try:
-            # Load the data from the CSV file
-            self.__data = pd.read_csv(self.file_path)
-            return self.__data
-        except Exception as e:
-            print(f"Error loading data: {e}")
-            return pd.DataFrame()
+
+        if not os.path.isfile(self.file_path):
+            raise FileNotFoundError(f"File not found: {self.file_path}")
+
+        # Any parsing errors will be raised to the caller
+        self.__data = pd.read_csv(self.file_path)
+        return self.__data
 
 
     
