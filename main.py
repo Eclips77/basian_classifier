@@ -7,19 +7,30 @@ from services.cleaner_and_spliter import Cleaner
 FILE_PATH = "Data/agaricus-lepiota.csv"
 LABEL_COL = 0
 
-path, label = DataValidator.validate_cli(FILE_PATH, LABEL_COL)
-loader = DataLoader(path)
-loader.load_data()
-data = loader.get_data()
-cleaner = Cleaner(data,label)
 
-X_train, X_test, y_train, y_test = cleaner.split_data()
+def main() -> None:
+    """Entry point for running the example pipeline."""
 
-clf = Classifier()
-clf.fit(X_train, y_train)
+    try:
+        path, label = DataValidator.validate_cli(FILE_PATH, LABEL_COL)
+        loader = DataLoader(path)
+        loader.load_data()
+        data = loader.get_data()
 
-rc = RecordClassifier(clf)
-rc.evaluate(X_test, y_test)
+        cleaner = Cleaner(data, label)
+        X_train, X_test, y_train, y_test = cleaner.split_data()
+
+        clf = Classifier()
+        clf.fit(X_train, y_train)
+
+        rc = RecordClassifier(clf)
+        rc.evaluate(X_test, y_test)
+    except Exception as exc:
+        print(f"Fatal error: {exc}")
+
+
+if __name__ == "__main__":
+    main()
 
 # for idx, row in X_test.iterrows():
 #     record = row.to_dict()
