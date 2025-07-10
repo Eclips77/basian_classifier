@@ -1,15 +1,15 @@
 from src.app_controller import AppController
 from services.file_loader import FileLoader
 
-FILE_PATH = "Data/phishing.csv"
-LABEL_COL = "class"
+FILE_PATH = "Data/buy_computer.csv"
+LABEL_COL = "BoughtComputer"
 
 
 
 
 if __name__ == "__main__":
     loader = FileLoader()
-    app = AppController(FILE_PATH, LABEL_COL, loader=loader)
+    app = AppController(LABEL_COL, loader=loader)
     app.run()
 
 
