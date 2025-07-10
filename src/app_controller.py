@@ -1,7 +1,7 @@
 from services.input_validator import DataValidator
 from services.cleaner_and_spliter import Cleaner
-from train import NaiveBayesTrainer
-from evaluator import NaiveBayesEvaluator
+from src.train import NaiveBayesTrainer
+from src.evaluator import NaiveBayesEvaluator
 
 class AppController:
     def __init__(self, label_col, loader):
@@ -15,7 +15,7 @@ class AppController:
         self.evaluator = None
 
     def load_and_prepare(self, file_path):
-        self.file_path, self.label_name = DataValidator.validate_cli(file_path, self.label_col)
+        file_path, self.label_name = DataValidator.validate_cli(file_path, self.label_col)
         self.data = self.loader.load_data(self.file_path)
         # print(f"[DEBUG] Loaded data:\n{self.data.head()}")
         cleaner = Cleaner(self.data, self.label_name)
