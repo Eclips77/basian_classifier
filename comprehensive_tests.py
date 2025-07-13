@@ -154,6 +154,29 @@ class TestServerAPI:
     def setup_method(self):
         """הגדרת TestClient לפני כל טסט"""
         self.client = TestClient(app)
+
+    @patch('server.loader')
+    def test_load_file_success(self, mock_loader):
+        df = pd.DataFrame({'A': [1], 'B': [2]})
+        mock_loader.load_data.return_value = df
+
+        response = self.client.post('/load_file', json={'file_path': 'x.csv'})
+
+        assert response.status_code == 200
+        assert response.json() == {'columns': ['A', 'B']}
+        mock_loader.load_data.assert_called_once_with('x.csv')
+
+    @patch('server.AppController')
+    def test_train_success(self, mock_app):
+        mock_instance = Mock()
+        mock_instance.get_accuracy.return_value = 0.5
+        mock_app.return_value = mock_instance
+
+        response = self.client.post('/train', json={'file_path': 'x.csv', 'label_column': 'A'})
+
+        assert response.status_code == 200
+        assert response.json() == {'accuracy': 0.5}
+        mock_app.assert_called_once()
     
     @patch('server.controller')
     def test_get_accuracy_success(self, mock_controller):
