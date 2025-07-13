@@ -1,7 +1,6 @@
 from src.app_controller import AppController
 from services.file_loader import FileLoader
 
-FILE_PATH = "Data/buy_computer.csv"
 LABEL_COL = "BoughtComputer"
 
 
@@ -10,7 +9,12 @@ def main() -> None:
     loader = FileLoader()
     controller = AppController(LABEL_COL, loader=loader)
 
-    controller.load_and_prepare(FILE_PATH)
+    data_path = FileLoader.select_data_file()
+    if not data_path:
+        print("No valid file selected. Exiting.")
+        return
+
+    controller.load_and_prepare(data_path)
     controller.train_model()
 
     accuracy = controller.get_accuracy()
