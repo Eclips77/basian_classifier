@@ -14,10 +14,18 @@ class AppController:
         self.classifier = None
         self.evaluator = None
 
-    def load_and_prepare(self, file_path):
-        self.file_path, self.label_name = DataValidator.validate_cli(file_path, self.label_col)
-        self.data = self.loader.load_data(self.file_path)
-        # print(f"[DEBUG] Loaded data:\n{self.data.head()}")
+    def load_and_prepare(self, file_path: str):
+        """Load the dataset from ``file_path`` and prepare splits."""
+
+        self.file_path, self.label_name = DataValidator.validate_cli(
+            file_path, self.label_col
+        )
+
+        try:
+            self.data = self.loader.load_data(self.file_path)
+        except ValueError as exc:
+            raise ValueError(f"Failed to load data: {exc}") from exc
+
         cleaner = Cleaner(self.data, self.label_name)
         self.X_train, self.X_test, self.y_train, self.y_test = cleaner.split_data()
 

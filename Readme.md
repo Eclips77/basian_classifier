@@ -49,6 +49,7 @@ python comprehensive_tests.py
 ```bash
 python main.py
 ```
+במהלך ההפעלה יוצג תפריט לבחירת קובץ מתוך תיקיית `Data` או להזנת נתיב לקובץ CSV אחר.
 
 ## הפעלת ממשק Streamlit (אופציונלי)
 
