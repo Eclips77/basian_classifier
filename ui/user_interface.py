@@ -1,10 +1,15 @@
 import streamlit as st
 from src.app_controller import AppController
 from services.file_loader import FileLoader
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 # Initialize once
 loader = FileLoader()
-controller = AppController("path/to/your_file.csv", "label_column_name", loader)
+controller = AppController("BoughtComputer", loader)
 
 st.set_page_config(page_title="Naive Bayes Classifier", layout="centered")
 st.title("🧮 Naive Bayes Classifier App")

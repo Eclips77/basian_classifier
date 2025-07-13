@@ -7,7 +7,7 @@ class AppController:
     def __init__(self, label_col, loader):
         self.label_col = label_col
         self.loader = loader
-
+        self.file_path = None
         self.data = None
         self.label_name = None
         self.X_train, self.X_test, self.y_train, self.y_test = None, None, None, None
@@ -51,3 +51,6 @@ class AppController:
         if not self.evaluator:
             raise Exception("Model not trained.")
         return self.evaluator.predict(record)
+
+    def evaluate_model(self):
+        pass
