@@ -5,7 +5,6 @@ LABEL_COL = "BoughtComputer"
 
 
 def main() -> None:
-    """Demonstrate how to use ``AppController``."""
     loader = FileLoader()
     controller = AppController(LABEL_COL, loader=loader)
 
