@@ -1,7 +1,7 @@
 from services.input_validator import DataValidator
 from services.cleaner_and_spliter import Cleaner
-from train import NaiveBayesTrainer
-from evaluator import NaiveBayesEvaluator
+from .train import NaiveBayesTrainer
+from .evaluator import NaiveBayesEvaluator
 
 class AppController:
     def __init__(self, label_col, loader):
